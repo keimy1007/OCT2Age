@@ -11,8 +11,8 @@ __pycache__/
 # datasets/outputs
 data_kenshin/*
 data_oct/*
-outputs/*
 
+outputs/*
 params/*
 figures/*
 results/*
