@@ -19,4 +19,4 @@ results/*
 
 # legacy
 legacy*
-*/legacy*
+# */legacy*
