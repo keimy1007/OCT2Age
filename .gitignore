@@ -1,0 +1,22 @@
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+
+
+# datasets/outputs
+data_kenshin/*
+data_oct/*
+outputs/*
+
+params/*
+figures/*
+results/*
+
+# legacy
+legacy*
+# */legacy*
