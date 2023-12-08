@@ -15,7 +15,7 @@ def dataframe_to_tensor(df, dtype=torch.float):
 
 
 
-def create_scaled_dataloader_per_CV(X_df, Y_df, n_splits=3, batch_size=64):
+def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_splits=3, batch_size=64):
     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
 
     X_train_CV, X_test_CV, y_train_CV, y_test_CV = [], [], [], []
@@ -33,8 +33,8 @@ def create_scaled_dataloader_per_CV(X_df, Y_df, n_splits=3, batch_size=64):
         y_test_CV.append(y_test)
 
         # スケーリング処理
-        scaler_X = StandardScaler()
-        scaler_Y = StandardScaler()
+        scaler_X = scaler
+        scaler_Y = scaler
 
         X_train_scaled = scaler_X.fit_transform(X_train)
         X_test_scaled = scaler_X.transform(X_test)
