@@ -1,7 +1,48 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import seaborn as sns
+
+from sklearn.manifold import TSNE
+from umap import UMAP
+
+
+
+def plot_TSNE(X_df, y_df, var_name, random_state=42):
+    reducer = TSNE(n_components=2, random_state=random_state)
+    X_2d = reducer.fit_transform(X_df)  # X_df は元の212次元のデータ
+
+    # 年齢に基づいた色のグラデーションを設定
+    colors = y_df.values.flatten()  # y_df は年齢のデータ
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom1", ["pink", "blue"])
+
+    # 2Dの分布をプロット
+    plt.figure(figsize=(10, 8))
+    plt.scatter(X_2d[:, 0], X_2d[:, 1], c=colors, cmap=cmap)
+    plt.colorbar(label=var_name)
+    plt.title(f"2D visualization of {var_name} using t-SNE")
+    plt.xlabel("t-SNE feature 1")
+    plt.ylabel("t-SNE feature 2")
+    plt.show()
+
+
+def plot_UMAP(X_df, y_df, var_name, random_state=42):
+    reducer = UMAP(n_components=2, random_state=random_state)
+    X_2d = reducer.fit_transform(X_df)  # X_df は元の212次元のデータ
+
+    # 変数に基づいた色のグラデーションを設定
+    colors = y_df.values.flatten()  # y_df は変数のデータ
+    cmap = mcolors.LinearSegmentedColormap.from_list("custom2", ["pink", "blue"])
+
+    # 2Dの分布をプロット
+    plt.figure(figsize=(10, 8))
+    scatter = plt.scatter(X_2d[:, 0], X_2d[:, 1], c=colors, cmap=cmap)
+    plt.colorbar(scatter, label=var_name)
+    plt.title(f"2D visualization of {var_name} using UMAP")
+    plt.xlabel("UMAP feature 1")
+    plt.ylabel("UMAP feature 2")
+    plt.show()
 
 
 def plot_disc_thickness(arr):

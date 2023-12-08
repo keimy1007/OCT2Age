@@ -77,8 +77,6 @@ def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_split
 
 
 
-
-
 def make_datasets_in_2016(filenames, ROI="cpRNFL"):
     df = pd.DataFrame()
     first_loop = True

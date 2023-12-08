@@ -8,9 +8,9 @@ import torch.optim as optim
 import torch.nn as nn
 
 
-class NN_OCT2Age(nn.Module):
+class MLP(nn.Module):
     def __init__(self, input_dim, hidden_dims=[10], output_dim=1, dropout_rate=0.3):
-        super(NN_OCT2Age, self).__init__()
+        super(MLP, self).__init__()
 
         # 全ての層のサイズを保持するリスト
         all_layers = [input_dim] + hidden_dims + [output_dim]
@@ -21,7 +21,7 @@ class NN_OCT2Age(nn.Module):
             layer = nn.Linear(all_layers[i], all_layers[i + 1])
 
             # Heの初期化（ReLUの場合に適した初期化）
-            nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='relu')
+            # nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='relu')
 
             self.layers.append(layer)
 
