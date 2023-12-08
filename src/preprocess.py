@@ -2,17 +2,19 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import copy as cp
 
 from sklearn.model_selection import KFold
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, FunctionTransformer
 
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
 
+
+
 def dataframe_to_tensor(df, dtype=torch.float):
     return torch.tensor(df.values, dtype=dtype)
-
 
 
 def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_splits=3, batch_size=64):
@@ -20,6 +22,7 @@ def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_split
 
     X_train_CV, X_test_CV, y_train_CV, y_test_CV = [], [], [], []
     train_loader_CV, test_loader_CV = [], []
+    X_scaler_CV, y_scaler_CV = [], []
 
     for train_index, test_index in kf.split(X_df):
         # 分割された訓練データとテストデータを取得
@@ -32,14 +35,25 @@ def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_split
         y_train_CV.append(y_train)
         y_test_CV.append(y_test)
 
-        # スケーリング処理
-        scaler_X = scaler
-        scaler_Y = scaler
 
-        X_train_scaled = scaler_X.fit_transform(X_train)
-        X_test_scaled = scaler_X.transform(X_test)
-        y_train_scaled = scaler_Y.fit_transform(y_train)
-        y_test_scaled = scaler_Y.transform(y_test)
+        # スケーリング処理
+        if isinstance(scaler, FunctionTransformer):
+            X_train = X_train.to_numpy()
+            X_test = X_test.to_numpy()
+            y_train = y_train.to_numpy()
+            y_test = y_test.to_numpy()
+
+        X_scaler = cp.deepcopy(scaler)
+        y_scaler = cp.deepcopy(scaler)
+
+        X_train_scaled = X_scaler.fit_transform(X_train)
+        X_test_scaled = X_scaler.transform(X_test)
+        y_train_scaled = y_scaler.fit_transform(y_train)
+        y_test_scaled = y_scaler.transform(y_test)
+
+        # スケーリングされた値をリストに追加
+        X_scaler_CV.append(X_scaler)
+        y_scaler_CV.append(y_scaler)
 
         # データフレームをPyTorchのテンソルに変換
         X_train_tensor = torch.tensor(X_train_scaled, dtype=torch.float32)
@@ -59,7 +73,7 @@ def create_scaled_dataloader_per_CV(X_df, Y_df, scaler=StandardScaler(), n_split
         train_loader_CV.append(train_loader)
         test_loader_CV.append(test_loader)
 
-    return X_train_CV, X_test_CV, y_train_CV, y_test_CV, train_loader_CV, test_loader_CV, scaler_Y
+    return X_train_CV, X_test_CV, X_scaler_CV, y_train_CV, y_test_CV, y_scaler_CV, train_loader_CV, test_loader_CV
 
 
 

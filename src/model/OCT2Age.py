@@ -75,8 +75,7 @@ def valid(model, test_loader, criterion = nn.MSELoss(), device='mps'):
 
             loss = criterion(Y_pred, Y_true)  
             loss_per_batch = loss.item()            
-            # loss_per_batch = np.log(loss_per_batch)
-
+      
             total_loss += loss_per_batch
                 
     average_loss = total_loss / len(test_loader)
