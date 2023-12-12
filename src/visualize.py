@@ -81,7 +81,6 @@ def plot_disc_thickness(arr):
     # plt.close()
 
 
-
 def plot_macula_thickness(arr, ROI="RNFL"):
     fig, ax = plt.subplots()
 
