@@ -63,7 +63,7 @@ def make_datasets_in_2016(filenames, ROI="cpRNFL"):
 
 def conversion_to_int(df, filling):
     df2 = pd.to_numeric(df, errors='coerce')
-    df2.fillna(1, inplace=True)  # 例: 0で置換
+    df2.fillna(filling, inplace=True)
     df2 = df2.astype(np.int64)
     return df2
 
@@ -77,7 +77,6 @@ def modify_kenshin_columns(df):
     df2["short_sleep_6"] = ((df2.sleep == 1) | (df2.sleep == 2)).astype(int)
     df2["short_sleep_5"] = (df2.sleep == 1).astype(int)
     return df2
-
 
 
 def conversion_df2XY(df, y_var):

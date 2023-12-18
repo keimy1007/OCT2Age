@@ -28,6 +28,7 @@ def plot_TSNE(X_df, y_df, var_name, random_state=42):
 
 
 def plot_UMAP(X_df, y_df, var_name, random_state=42):
+    # reducer = umap.UMAP(n_neighbors=15, min_dist=0.1, n_components=2)
     reducer = UMAP(n_components=2, random_state=random_state)
     X_2d = reducer.fit_transform(X_df)  # X_df は元の212次元のデータ
 
