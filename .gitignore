@@ -8,12 +8,13 @@ __pycache__/
 */*/.DS_Store
 
 
-# datasets/outputs
+# datasets
 data_kenshin/*
 data_oct/*
 data_xml/*
 data_boundary/*
 
+# outputs
 outputs/*
 params/*
 figures/*
@@ -21,3 +22,6 @@ results/*
 
 # legacy
 legacy*
+
+# JOIR
+JOIR_model/*
