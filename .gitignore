@@ -12,7 +12,8 @@ __pycache__/
 data_kenshin/*
 data_oct/*
 data_xml/*
-data_boundary/*
+data_dat/*
+data_hdf5/*
 
 # outputs
 outputs/*
